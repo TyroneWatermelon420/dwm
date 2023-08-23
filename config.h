@@ -14,7 +14,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int barheight          = 12;       /* 2 is the default spacing around the bar's font */
 static const char *fonts[]          = { "Hack Nerd Font Mono:size=11" };
 static const char dmenufont[]       = "Hack Nerd Font Mono:size=11";
-static const char buttonbar[] = "";
+static const char buttonbar[] = " ";
 
 /*colors*/
 /*static const char col_gray1[]       = "#222222";
@@ -74,8 +74,6 @@ static const Layout layouts[] = {
 #define TERMINAL "st"
 #define BROWSER "librewolf"
 #define FileManager "pcmanfm"
-
-#define STATUSBAR "dwmblocks"
 
 /* commands */
 static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0",      "+5%",      NULL };
@@ -149,13 +147,11 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkButton,		    0,		        Button1,	    spawn,		    {.v = dmenucmd } },
+	{ ClkButton,		0,		Button1,	spawn,		{.v = dmenucmd } },
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
-	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
-	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
