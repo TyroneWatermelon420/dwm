@@ -12,8 +12,8 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int barheight          = 12;       /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "Hack Nerd Font Mono:size=11" };
-static const char dmenufont[]       = "Hack Nerd Font Mono:size=11";
+static const char *fonts[]          = { "Hack Nerd Font Mono:size=16" };
+static const char dmenufont[]       = "Hack Nerd Font Mono:size=16";
 static const char buttonbar[] = "";
 
 /*colors*/
@@ -138,6 +138,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
+    { MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
     { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
 	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
@@ -150,7 +151,6 @@ static const Button buttons[] = {
 	{ ClkButton,		0,		Button1,	spawn,		{.v = dmenucmd } },
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
