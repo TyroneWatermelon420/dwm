@@ -12,8 +12,8 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int barheight          = 12;       /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "Hack Nerd Font Mono:size=16" };
-static const char dmenufont[]       = "Hack Nerd Font Mono:size=16";
+static const char *fonts[]          = { "Hack Nerd Font Mono:size=11" };
+static const char dmenufont[]       = "Hack Nerd Font Mono:size=11";
 static const char buttonbar[] = "";
 
 /*colors*/
