@@ -1,3 +1,25 @@
+/* See LICENSE file for copyright and license details.
+ *
+ * dynamic window manager is designed like any other X client as well. It is
+ * driven through handling X events. In contrast to other X clients, a window
+ * manager selects for SubstructureRedirectMask on the root window, to receive
+ * events about window (dis-)appearance. Only one X connection at a time is
+ * allowed to select for this event mask.
+ *
+ * The event handlers of dwm are organized in an array which is accessed
+ * whenever a new event has been fetched. This allows event dispatching
+ * in O(1) time.
+ *
+ * Each child of the root window is called a client, except windows which have
+ * set the override_redirect flag. Clients are organized in a linked client
+ * list on each monitor, the focus history is remembered through a stack list
+ * on each monitor. Each client contains a bit array to indicate the tags of a
+ * client.
+ *
+ * Keys and tagging rules are organized as arrays and defined in config.h.
+ *
+ * To understand everything else, start reading main().
+ */
 #include <errno.h>
 #include <locale.h>
 #include <signal.h>
@@ -37,12 +59,12 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeWarn, SchemeUrgent }; /* color schemes */
+enum { SchemeNorm, SchemeSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkButton,
+enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
@@ -430,21 +452,18 @@ buttonpress(XEvent *e)
 	}
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
-		x += TEXTW(buttonbar);
-		if(ev->x < x) {
-			click = ClkButton;
-		} else {
-			do
-				x += TEXTW(tags[i]);
-			while (ev->x >= x && ++i < LENGTH(tags));
-			if (i < LENGTH(tags)) {
-				click = ClkTagBar;
-				arg.ui = 1 << i;
-			} else if (ev->x < x)
-				click = ClkLtSymbol;
-			else
-				click = ClkStatusText;
-		}
+		do
+			x += TEXTW(tags[i]);
+		while (ev->x >= x && ++i < LENGTH(tags));
+		if (i < LENGTH(tags)) {
+			click = ClkTagBar;
+			arg.ui = 1 << i;
+		} else if (ev->x < x + TEXTW(selmon->ltsymbol))
+			click = ClkLtSymbol;
+		else if (ev->x > selmon->ww - (int)TEXTW(stext))
+			click = ClkStatusText;
+		else
+			click = ClkWinTitle;
 	} else if ((c = wintoclient(ev->window))) {
 		focus(c);
 		restack(selmon);
@@ -814,10 +833,6 @@ drawbar(Monitor *m)
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
-	char *ts = stext;
-	char *tp = stext;
-	int tx = 0;
-	char ctmp;
 	Client *c;
 
 	if (!m->showbar)
@@ -825,19 +840,7 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon || 1) { /* status is only drawn on selected monitor */
-        tw = m->ww - drawstatusbar(m, bh, stext);
-        drw_setscheme(drw, scheme[SchemeNorm]);
-            while (1) {
-			    if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
-			    ctmp = *ts;
-			    *ts = '\0';
-			    drw_text(drw, m->ww - tw + tx, 0, tw - tx, bh, 0, tp, 0);
-			    tx += TEXTW(tp) -lrpad;
-			    if (ctmp == '\0') { break; }
-			    drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
-			    *ts = ctmp;
-			    tp = ++ts;
-		}
+		tw = m->ww - drawstatusbar(m, bh, stext);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -846,9 +849,6 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
-	w = TEXTW(buttonbar);
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, buttonbar, 0);
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
@@ -864,8 +864,15 @@ drawbar(Monitor *m)
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	if ((w = m->ww - tw - x) > bh) {
+		if (m->sel) {
+			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+			if (m->sel->isfloating)
+				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
+		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
@@ -1367,8 +1374,11 @@ propertynotify(XEvent *e)
 			drawbars();
 			break;
 		}
-		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName])
+		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
 			updatetitle(c);
+			if (c == c->mon->sel)
+				drawbar(c->mon);
+		}
 		if (ev->atom == netatom[NetWMWindowType])
 			updatewindowtype(c);
 	}
@@ -1790,9 +1800,8 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + barheight;
+	bh = drw->fonts->h + user_bh;
 	updategeom();
-
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
 	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);
@@ -1931,7 +1940,7 @@ tagmon(const Arg *arg)
 void
 tile(Monitor *m)
 {
-    unsigned int i, n, h, r, oe = enablegaps, ie = enablegaps, mw, my, ty;
+	unsigned int i, n, h, r, oe = enablegaps, ie = enablegaps, mw, my, ty;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -1943,8 +1952,8 @@ tile(Monitor *m)
 	}
 
 	if (n > m->nmaster)
-        mw = m->nmaster ? (m->ww + m->gappiv*ie) * m->mfact : 0;
-    else
+		mw = m->nmaster ? (m->ww + m->gappiv*ie) * m->mfact : 0;
+	else
 		mw = m->ww - 2*m->gappov*oe + m->gappiv*ie;
 	for (i = 0, my = ty = m->gappoh*oe, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
@@ -1968,7 +1977,7 @@ togglebar(const Arg *arg)
 	selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
-    arrange(selmon);
+	arrange(selmon);
 }
 
 void
@@ -2093,7 +2102,7 @@ updatebarpos(Monitor *m)
 	m->wy = m->my;
 	m->wh = m->mh;
 	if (m->showbar) {
-        m->wh -= bh;
+		m->wh -= bh;
 		m->by = m->topbar ? m->wy : m->wy + m->wh;
 		m->wy = m->topbar ? m->wy + bh : m->wy;
 	} else
