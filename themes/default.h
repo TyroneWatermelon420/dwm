@@ -1,5 +1,7 @@
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char norm_fg[]       = "#bbbbbb";
+static const char norm_bg[]       = "#222222";
+static const char norm_border[]       = "#444444";
+
+static const char sel_fg[]       = "#eeeeee";
+static const char sel_bg[]        = "#005577";
+static const char sel_border[]        = "#005577";
