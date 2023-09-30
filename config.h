@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-#include"themes/nord.h"
+#include"themes/gruvbox.h"
 
 /* See LICENSE file for copyright and license details. */
 
@@ -18,8 +18,8 @@ static const char *fonts[]          = { "Hack Nerd Font Mono:size=11" };
 static const char dmenufont[]       = "Hack Nerd Font Mono:size=11";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { norm_fg, norm_bg, norm_border },
+	[SchemeSel]  = { sel_fg, sel_bg, sel_border },
 };
 
 /* tagging */
@@ -67,7 +67,7 @@ static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0", 
 static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "0",      "-5%",      NULL };
 static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "0",      "toggle",   NULL };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", norm_bg, "-nf", norm_fg, "-sb", sel_bg, "-sf", sel_fg, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 static const char *browsercmd[] = { BROWSER, NULL };
 static const char *filemanagercmd[] = { FileManager, NULL };
@@ -75,7 +75,7 @@ static const char *brupcmd[] = { "brightnessctl", "set", "10%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "set", "10%-", NULL };
 
 /*dmenu scripts*/
-static const char *mo2select[] = { "MO2select", "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *mo2select[] = { "MO2select", "-nb", norm_bg, "-nf", norm_fg, "-sb", sel_bg, "-sf", sel_fg, NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
