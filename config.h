@@ -75,7 +75,7 @@ static const char *brupcmd[] = { "brightnessctl", "set", "10%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "set", "10%-", NULL };
 
 /*dmenu scripts*/
-static const char *mo2select[] = { "MO2select", "-nb", norm_bg, "-nf", norm_fg, "-sb", sel_bg, "-sf", sel_fg, NULL };
+static const char *mo2select[] = { "MO2select", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
