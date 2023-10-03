@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-#include"themes/gruvbox.h"
+#include"themes/tokyonight.h"
 
 /* See LICENSE file for copyright and license details. */
 
