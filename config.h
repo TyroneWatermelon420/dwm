@@ -65,7 +65,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERMINAL "st"
 #define BROWSER "librewolf"
-#define FileManager "pcmanfm"
+#define FileManager "nautilus"
 
 /* commands */
 static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0",      "+5%",      NULL };
