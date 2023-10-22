@@ -83,9 +83,9 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-  { MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
-  { MODKEY,                       XK_e,      spawn,          {.v = filemanagercmd } },
-  { MODKEY,                       XK_m,      spawn,          {.v = mo2select } },
+    { MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
+    { MODKEY,                       XK_e,      spawn,          {.v = filemanagercmd } },
+    { MODKEY,                       XK_m,      spawn,          {.v = mo2select } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -117,15 +117,15 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_n,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-  { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+    { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_Left,   focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_Right,  focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_Left,   tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Right,  tagmon,         {.i = +1 } },
-  { 0, XF86XK_MonBrightnessUp,    spawn,                     {.v = brupcmd} },
-  { 0, XF86XK_MonBrightnessDown,  spawn,                     {.v = brdowncmd} },
+    { 0, XF86XK_MonBrightnessUp,    spawn,                     {.v = brupcmd} },
+    { 0, XF86XK_MonBrightnessDown,  spawn,                     {.v = brdowncmd} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -136,8 +136,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
-  { MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
-  { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+    { MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
+    { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
 	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 };
