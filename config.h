@@ -1,7 +1,4 @@
 #include <X11/XF86keysym.h>
-#include"themes/tokyonight.h"
-
-/* See LICENSE file for copyright and license details. */
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -19,8 +16,18 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 12;        /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "Hack Nerd Font Mono:size=11" };
-static const char dmenufont[]       = "Hack Nerd Font Mono:size=11";
+static const char *fonts[]          = { "Hack Nerd Font Mono:size=12" };
+static const char dmenufont[]       = "Hack Nerd Font Mono:size=12";
+
+/* colors */
+static const char norm_fg[]       = "#bbc2cf";
+static const char norm_bg[]       = "#282c34";
+static const char norm_border[]       = "#1c1f24";
+
+static const char sel_fg[]       = "#51afef";
+static const char sel_bg[]        = "#1c1f24";
+static const char sel_border[]        = "#51afef";
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { norm_fg, norm_bg, norm_border },
@@ -28,7 +35,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "",  "", "", "", "" };
+static const char *tags[] = {"", "", "", "", "", "", "", "", ""};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -69,7 +76,7 @@ static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "0", 
 static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "0",      "-5%",      NULL };
 static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "0",      "toggle",   NULL };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", norm_bg, "-nf", norm_fg, "-sb", sel_bg, "-sf", sel_fg, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "8", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "librewolf", NULL };
 static const char *filemanagercmd[] = { "pcmanfm", NULL };
