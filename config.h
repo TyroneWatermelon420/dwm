@@ -85,6 +85,7 @@ static const char *brdowncmd[] = { "brightnessctl", "set", "10%-", NULL };
 
 /*dmenu scripts*/
 static const char *mo2select[] = { "MO2select", NULL };
+static const char *dmkill[] = { "dm-kill", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -118,7 +119,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_o,      incrovgaps,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+    { MODKEY,                       XK_q,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = dmkill } },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_n,      setlayout,      {.v = &layouts[2]} },
