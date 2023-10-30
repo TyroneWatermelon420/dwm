@@ -2,6 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -68,7 +69,7 @@ static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "0", 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-p", "Run:", "-l", "8", "-z", "450", NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *browsercmd[] = { "librewolf", NULL };
+static const char *browsercmd[] = { "thorium-browser", NULL };
 static const char *filemanagercmd[] = { "pcmanfm", NULL };
 static const char *brupcmd[] = { "brightnessctl", "set", "10%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "set", "10%-", NULL };
@@ -108,6 +109,9 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Right,  tagmon,         {.i = +1 } },
     { 0, XF86XK_MonBrightnessUp,    spawn,                     {.v = brupcmd} },
     { 0, XF86XK_MonBrightnessDown,  spawn,                     {.v = brdowncmd} },
+    { MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
