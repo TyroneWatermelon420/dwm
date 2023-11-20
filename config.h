@@ -9,6 +9,8 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 12;        /* 2 is the default spacing around the bar's font */
 static const char *fonts[]          = { "Hack Nerd Font Mono:size=12"};
 static const char dmenufont[]       = "Hack Nerd Font Mono:size=12";
+static const unsigned int baralpha = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
 
 /* colors */
 static const char norm_fg[]         = "#bbc2cf";
@@ -19,30 +21,16 @@ static const char sel_fg[]          = "#51afef";
 static const char sel_bg[]          = "#1c1f24";
 static const char sel_border[]      = "#51afef";
 
-static const char status_fg[]       = "#000000";
-static const char status_bg[]       = "#000000";
-
-static const char tagsNorm_fg[]     = "#c678dd";
-static const char tagsNorm_bg[]     = "#282c34";
-
-static const char tagsSel_fg[]      = "#ffffff";
-static const char tagsSel_bg[]      = "#282c34";
-
-static const char infoNorm_fg[]     = "#000000";
-static const char infoNorm_bg[]     = "#000000";
-
-static const char infoSel_fg[]      = "#000000";
-static const char infoSel_bg[]      = "#000000";
-
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { norm_fg, norm_bg, norm_border },
 	[SchemeSel]  = { sel_fg, sel_bg, sel_border },
-    [SchemeStatus]  = { status_fg, status_bg,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { tagsNorm_fg, tagsNorm_bg,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { tagsSel_fg, tagsSel_bg,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { infoNorm_fg, infoNorm_bg,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { infoSel_fg, infoSel_bg,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+};
+
+static const unsigned int alphas[][3]      = {
+    /*               fg      bg        border*/
+    [SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
