@@ -9,11 +9,12 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 12;        /* 2 is the default spacing around the bar's font */
 static const char *fonts[]          = { "Hack Nerd Font Mono:size=12"};
 static const char dmenufont[]       = "Hack Nerd Font Mono:size=12";
-static const unsigned int baralpha = 0xd0;
+static const unsigned int baralpha = 0xf0;
 static const unsigned int borderalpha = OPAQUE;
 
 /* colors */
-static const char norm_fg[]         = "#bbc2cf";
+static const char norm_fg[]         = "#cccccc";
+//static const char norm_bg[]         = "#bbc2cf";
 static const char norm_bg[]         = "#282c34";
 static const char norm_border[]     = "#1c1f24";
 
