@@ -70,9 +70,9 @@ static const char *downvol[]        = { "/usr/bin/pactl",   "set-sink-volume", "
 static const char *mutevol[]        = { "/usr/bin/pactl",   "set-sink-mute",   "0",      "toggle",   NULL };
 static char dmenumon[2]             = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]       = { "dmenu_run", "-p", "Run:", "-l", "8", "-z", "450", NULL };
-static const char *termcmd[]        = { "st", NULL };
+static const char *termcmd[]        = { "alacritty", NULL };
 static const char *browsercmd[]     = { "librewolf", NULL };
-static const char *filemanagercmd[] = { "pcmanfm", NULL };
+static const char *filemanagercmd[] = { "nemo", NULL };
 static const char *brupcmd[]        = { "brightnessctl", "set", "10%+", NULL };
 static const char *brdowncmd[]      = { "brightnessctl", "set", "10%-", NULL };
 
